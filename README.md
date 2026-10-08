@@ -20,3 +20,16 @@ The repository consists of 4 projects:
 The ConnectFour is an experimental project with Blazor technology.
 
 Currently, ConnectFour supports only `Easy`-Level game strategy against computer. It could be extended with multi-player and medium/hard level strategies.
+
+## Original Project
+
+Original auther: tk-codes
+
+Blazor Server を利用した Connect Four サンプルです。
+元プロジェクトをベースとして、以下の機能を追加しました。
+- Medium AI
+- Hard AI
+- 戦略パターン対応
+- リファクタリング
+尚、WebAssemblyは削除しています。
+
