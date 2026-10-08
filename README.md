@@ -31,5 +31,5 @@ Blazor Server を利用した Connect Four サンプルです。
 - Hard AI
 - 戦略パターン対応
 - リファクタリング
-尚、WebAssemblyは削除しています。
+<br>尚、WebAssemblyは削除しています。
 
