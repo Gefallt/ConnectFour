@@ -4,7 +4,50 @@
 @using ConnectFourLogic.Helpers;
 @using ConnectFourLogic.Strategies;
 
-<h3 id="play">Play</h3>
+<h3 id="play">
+    @if (_computerBattle)
+    {
+        <span>
+            @if (_game != null)
+            {
+                <span>
+                    Battle :
+
+                    <span style="color:@_game.GetPlayerOne().Color">
+                        ●
+                    </span>
+
+                    @_game.GetPlayerOne().Name
+
+                    vs
+
+                    <span style="color:@_game.GetPlayerTwo().Color">
+                        ●
+                    </span>
+
+                    @_game.GetPlayerTwo().Name
+                </span>
+            }
+
+        </span>
+
+        <span>
+            Winner :
+            <strong>@_battleResult</strong>
+        </span>
+    }
+
+    else
+    {
+        <span>
+            Play Level :
+            <span style="color:@_computerColor">●</span>
+            @_level
+        </span>
+
+    }
+</h3>
+
 
 @if (_game == null)
 {
@@ -12,23 +55,70 @@
 }
 else
 {
-    <GameBoardView Game="@_game"></GameBoardView>
+    <GameBoardView Game="@_game"
+                   NewGameClicked="NewGame"
+                   ReplayClicked="Replay">
+    </GameBoardView>
+
 }
 
 @code {
     private IGame _game;
+    private GameStrategyLevel _level;
+    private bool _computerBattle;
 
+    private bool IsComputerBattle()
+    {
+        var uri = navManager.ToAbsoluteUri(navManager.Uri);
+        var query = QueryHelpers.ParseQuery(uri.Query);
+
+        return query.ContainsKey("computerbattle");
+    }
+
+    private string _battleResult;
+    private string _computerColor;
+    private string _easyColor;
+    private string _targetColor;
+
+ 
     protected override void OnInitialized()
     {
     // Currently, only easy level is supported for playing against computer.
     // To support more levels, extend the form and logic.
-        var level = GameStrategyLevel.Easy;
+    //    var level = GameStrategyLevel.Easy;
+    //    var level = GetLevelFromUri();
+        _level = GetLevelFromUri();
+        _computerBattle = IsComputerBattle();
+
+        if (_computerBattle)
+        {
+            var runner = new BattleRunner();
+
+            var result =
+                runner.Run(_level);
+
+            _game = result.Game;
+
+            _battleResult =
+                result.Winner != null
+                    ? result.Winner.Name
+                    : "Draw";
+
+            _easyColor =
+                _game.GetBoard()
+                     .GetDiscColorAtCell(0, 0);
+
+            return;
+        }
 
         var playerOne = CreateMainPlayerFromUri();
         var playerTwo = CreateComputerPlayer(playerOne.Color);
 
-        _game = new Game(playerOne, playerTwo, level);
+        _computerColor = playerTwo.Color;
+
+        _game = new Game(playerOne, playerTwo, _level);
     }
+    
 
     private Player CreateMainPlayerFromUri()
     {
@@ -43,13 +133,74 @@ else
 
     private Player CreateComputerPlayer(string mainPlayerColor)
     {
-        string color = ColorHelper.GetRandomColor();
-
-        while (color == mainPlayerColor)
-        {
-            color = ColorHelper.GetRandomColor();
-        }
+        string color =
+            ColorHelper.GetComplementaryColor(mainPlayerColor);
 
         return new Player("Computer", color);
     }
+
+    private GameStrategyLevel GetLevelFromUri()
+    {
+        var uri = navManager.ToAbsoluteUri(navManager.Uri);
+        var parsedQuery = QueryHelpers.ParseQuery(uri.Query);
+
+        if (parsedQuery.TryGetValue("level", out var levelText))
+        {
+            if (Enum.TryParse<GameStrategyLevel>(
+                levelText,
+                out var level))
+            {
+                return level;
+            }
+        }
+
+        return GameStrategyLevel.Easy;
+    }
+    private void NewGame()
+    {
+        navManager.NavigateTo(
+            navManager.Uri,
+            forceLoad: true);
+    }
+
+    private bool _isReplaying;
+
+    private async Task Replay()
+    {
+        if (_game == null)
+            return;
+
+        _isReplaying = true;
+
+        var moves =
+            _game.GetMoveHistory().ToList();
+
+        var playerOne =
+            _game.GetPlayerOne();
+
+        var playerTwo =
+            _game.GetPlayerTwo();
+
+        _battleResult = "";
+
+        _game =
+            new Game(
+                playerOne,
+                playerTwo,
+                GameStrategyLevel.Replay);
+
+        StateHasChanged();
+
+        foreach (var column in moves)
+        {
+            await Task.Delay(700);
+
+            _game.DropDisc(column);
+
+            await InvokeAsync(StateHasChanged);
+        }
+
+        _isReplaying = false;
+    }
+
 }

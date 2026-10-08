@@ -26,5 +26,9 @@ namespace ConnectFourLogic.Board
         bool CanPlayerWin(Player player, int column);
 
         bool HasPlayerWon(Player player, BoardCell lastPlayedCell);
+
+        void RemoveDisc(int column, int row);
+
+        Player GetPlayerAtCell(int column, int row);
     }
 }

@@ -13,7 +13,6 @@ The repository consists of 4 projects:
 * ConnectFourLogic: The c# class library contains the core game logic.
 * ConnectFourUiLib: Razor component library contains pure UI components
 * ConnectFourServer: [Blazor Server](https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-7.0#blazor-server) project 
-* ConnectFourWebAssembly: [Blazor WebAssembly](https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-7.0#blazor-webassembly) project
 
 ## Status
 

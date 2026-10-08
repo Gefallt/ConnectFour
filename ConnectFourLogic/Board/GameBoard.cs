@@ -216,5 +216,16 @@ namespace ConnectFourLogic.Board
 
             return InvalidRowColumn;
         }
+
+        public void RemoveDisc(int column, int row)
+        {
+            _cells[column, row] = null;
+        }
+
+        public Player GetPlayerAtCell(int column, int row)
+        {
+            return _cells[column, row];
+        }
+
     }
 }

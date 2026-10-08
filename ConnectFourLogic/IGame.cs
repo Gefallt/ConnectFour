@@ -1,4 +1,5 @@
 ﻿using ConnectFourLogic.Board;
+using System.Collections.Generic;
 
 namespace ConnectFourLogic
 {
@@ -13,5 +14,12 @@ namespace ConnectFourLogic
         bool IsOver();
 
         void DropDisc(int column);
+        
+        Player GetPlayerOne();
+        
+        Player GetPlayerTwo();
+
+        IReadOnlyList<int> GetMoveHistory();
+
     }
 }

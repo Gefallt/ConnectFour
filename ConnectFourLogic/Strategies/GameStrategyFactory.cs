@@ -12,7 +12,10 @@ namespace ConnectFourLogic.Strategies
         {
             return level switch
             {
+                GameStrategyLevel.Replay => new ReplayStrategy(),
                 GameStrategyLevel.Easy => new EasyLevelStrategy(board),
+                GameStrategyLevel.Medium => new MediumLevelStrategy(board),
+                GameStrategyLevel.Hard => new HardLevelStrategy(board),
                 _ => throw new NotSupportedException($"Strategy {level} is not supported yet")
             };
         }

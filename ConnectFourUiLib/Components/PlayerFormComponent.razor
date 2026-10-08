@@ -1,4 +1,5 @@
-﻿@using ConnectFourLogic.Helpers
+﻿@using ConnectFourLogic.Strategies
+@using ConnectFourLogic.Helpers
 @using ConnectFourUiLib.ViewModels
 @using Microsoft.AspNetCore.WebUtilities
 
@@ -27,9 +28,26 @@
         </div>
     </div>
     
+    <div class="row g-2">
+        <div class="col-1">
+            <label class="col-form-label">Level:</label>
+        </div>
+        <div class="col-4">
+            <InputSelect class="form-select" @bind-Value="_level">
+                <option value="@GameStrategyLevel.Easy">Easy</option>
+                <option value="@GameStrategyLevel.Medium">Medium</option>
+                <option value="@GameStrategyLevel.Hard">Hard</option>
+            </InputSelect>
+        </div>
+    </div>
+
     <div class="row mt-3">
         <button type="button" class="col-3 btn btn-secondary" @onclick="HandleGenerateColor">Random color</button>
-        <button type="submit" class="col-2 btn btn-primary">New Game</button>
+        <button type="submit" class="col-2 btn btn-primary">
+            @(string.IsNullOrWhiteSpace(_player.Name)
+                        ? "Battle"
+                        : "New Game")
+        </button>
     </div>
 </EditForm>
 
@@ -52,9 +70,31 @@
 
     private void HandleNewGame()
     {
-        var query = new Dictionary<string, string> {
-            { "name", this._player.Name }, { "color", this._player.Color } };
+        if (string.IsNullOrWhiteSpace(_player.Name))
+        {
+            var query = new Dictionary<string, string>
+        {
+            { "computerbattle", "true" },
+            { "level", _level.ToString() }
+        };
 
-        NavManager.NavigateTo(QueryHelpers.AddQueryString("play", query));
+            NavManager.NavigateTo(
+                QueryHelpers.AddQueryString("play", query));
+        }
+        else
+        {
+            var query = new Dictionary<string, string>
+        {
+            { "name", _player.Name },
+            { "color", _player.Color },
+            { "level", _level.ToString() }
+        };
+
+            NavManager.NavigateTo(
+                QueryHelpers.AddQueryString("play", query));
+        }
     }
+
+    private GameStrategyLevel _level = GameStrategyLevel.Easy;
+
 }

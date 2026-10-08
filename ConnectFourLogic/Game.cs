@@ -21,15 +21,52 @@ namespace ConnectFourLogic
 
         private readonly IGameBoard _board;
 
-        public Game(Player playerOne, Player playerTwo, GameStrategyLevel level)
+        public Game(
+            Player playerOne,
+            Player playerTwo,
+            GameStrategyLevel level)
         {
             _playerOne = playerOne;
             _playerTwo = playerTwo;
+
             _currentPlayer = _playerOne;
 
             _board = new GameBoard();
-            _strategy = GameStrategyFactory.Create(level, _board);
+
+            _strategy =
+                GameStrategyFactory.Create(
+                    level,
+                    _board);
         }
+
+
+        public Game(
+            Player playerOne,
+            Player playerTwo,
+            GameStrategyLevel level,
+            IGameBoard board,
+            Player winner,
+            List<int> moveHistory)
+        {
+            _playerOne = playerOne;
+            _playerTwo = playerTwo;
+
+            _currentPlayer = winner ?? playerOne;
+
+            _board = board;
+
+            _strategy =
+                GameStrategyFactory.Create(
+                    level,
+                    _board);
+
+            _winner = winner;
+
+            _isOver = true;
+
+            _moveHistory = moveHistory;
+        }
+
 
         public IGameBoard GetBoard()
         {
@@ -52,6 +89,11 @@ namespace ConnectFourLogic
 
         public void DropDisc(int column)
         {
+            if (!_isOver)
+            {
+                _moveHistory.Add(column);
+            }
+
             if (_isOver)
             {
                 return;
@@ -71,10 +113,18 @@ namespace ConnectFourLogic
 
             SwitchPlayer();
 
-            if (_strategy.GetLevel() != GameStrategyLevel.MultiPlayer)
+            if (_strategy.GetLevel() != GameStrategyLevel.Replay)
             {
-                (int playedColumn, int playedRow) = _strategy.Play(_currentPlayer, GetOpponent());
-                CheckGameStatus(playedColumn, playedRow);
+                (int playedColumn, int playedRow)
+                    = _strategy.Play(
+                        _currentPlayer,
+                        GetOpponent());
+
+                _moveHistory.Add(playedColumn);
+
+                CheckGameStatus(
+                    playedColumn,
+                    playedRow);
 
                 SwitchPlayer();
             }
@@ -106,5 +156,24 @@ namespace ConnectFourLogic
                 _isOver = true;
             }
         }
+            
+        public Player GetPlayerOne()
+        {
+            return _playerOne;
+        }
+
+        public Player GetPlayerTwo()
+        {
+            return _playerTwo;
+        }
+
+        
+        private List<int> _moveHistory = new();
+
+        public IReadOnlyList<int> GetMoveHistory()
+        {
+            return _moveHistory;
+        }
+
     }
-}
+}    

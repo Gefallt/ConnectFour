@@ -14,8 +14,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectFourLogic", "Connect
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectFourLogic.Test", "ConnectFourLogic.Test\ConnectFourLogic.Test.csproj", "{8A417141-22F4-4522-BCF0-B162EA35BF42}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectFourWebAssembly", "ConnectFourWebAssembly\ConnectFourWebAssembly.csproj", "{87027415-EA90-4F96-B4CA-0EC744040052}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectFourServer", "ConnectFourServer\ConnectFourServer.csproj", "{35AB2E4F-3CC5-4C7A-92AC-371E3A3EB90A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectFourUiLib", "ConnectFourUiLib\ConnectFourUiLib.csproj", "{452877F9-D52B-4403-9D2E-0A40FEE31639}"
@@ -34,10 +32,6 @@ Global
 		{8A417141-22F4-4522-BCF0-B162EA35BF42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A417141-22F4-4522-BCF0-B162EA35BF42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A417141-22F4-4522-BCF0-B162EA35BF42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87027415-EA90-4F96-B4CA-0EC744040052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87027415-EA90-4F96-B4CA-0EC744040052}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87027415-EA90-4F96-B4CA-0EC744040052}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87027415-EA90-4F96-B4CA-0EC744040052}.Release|Any CPU.Build.0 = Release|Any CPU
 		{35AB2E4F-3CC5-4C7A-92AC-371E3A3EB90A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{35AB2E4F-3CC5-4C7A-92AC-371E3A3EB90A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35AB2E4F-3CC5-4C7A-92AC-371E3A3EB90A}.Release|Any CPU.ActiveCfg = Release|Any CPU

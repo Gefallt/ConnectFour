@@ -4,8 +4,6 @@ namespace ConnectFourUiLib.ViewModels
 {
     public class PlayerForm
     {
-        [Required]
-        [MinLength(2, ErrorMessage = "Name is too short")]
         public string Name { get; set; }
 
         [Required]

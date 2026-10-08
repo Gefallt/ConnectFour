@@ -2,6 +2,7 @@
 {
     public enum GameStrategyLevel
     {
+        Replay,
         MultiPlayer,
         Easy,
         Medium,
